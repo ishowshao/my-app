@@ -63,11 +63,12 @@ class InvoiceTable extends React.Component {
         ];
 
         const url = new URL(window.location.href);
-        const password = url.searchParams.get('password') || '';
-        this.password = password;
+        this.password = url.searchParams.get('password') || '';
+        this.getList();
+    }
 
-        axios.get(`/invoice-server/list.php?password=${password}`).then((response) => {
-            console.log(response.data);
+    getList() {
+        axios.get(`/invoice-server/list.php?password=${this.password}`).then((response) => {
             this.setState({
                 data: response.data.data,
             });

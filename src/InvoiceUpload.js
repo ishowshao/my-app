@@ -12,6 +12,7 @@ class InvoiceUpload extends React.Component {
     }
 
     render() {
+        const me = this;
         const props = {
             name: 'file',
             showUploadList: false,
@@ -24,6 +25,7 @@ class InvoiceUpload extends React.Component {
                     const response = info.file.response;
                     if (response.code === 0) {
                         message.success(`file uploaded successfully`);
+                        me.props.onUploadSuccess();
                     } else {
                         message.error(response.message);
                     }
