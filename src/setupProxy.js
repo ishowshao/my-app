@@ -3,7 +3,7 @@ module.exports = function (app) {
     app.use(
         '/invoice-server',
         createProxyMiddleware({
-            target: 'http://localhost:5000',
+            target: 'https://shaoxia.co',
             changeOrigin: true,
         })
     );

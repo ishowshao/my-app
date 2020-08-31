@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'antd';
+import axios from 'axios';
 
 class InvoiceTable extends React.Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class InvoiceTable extends React.Component {
                 key: 'paid',
                 render: (text) => {
                     console.log(text);
-                    return text ? '是' : '否';
+                    return text === '1' ? '是' : '否';
                 },
             },
             {
@@ -42,11 +43,30 @@ class InvoiceTable extends React.Component {
                 key: 'url',
             },
             {
+                title: '上传时间',
+                dataIndex: 'createdAt',
+                key: 'createdAt',
+            },
+            {
                 title: '操作',
                 dataIndex: 'id',
                 key: 'id',
             },
         ];
+
+        const url = new URL(window.location.href);
+        const password = url.searchParams.get('password') || '';
+
+        axios.get(`/invoice-server/list.php?password=${password}`).then((response) => {
+            console.log(response.data);
+            this.setState({
+                data: response.data.data,
+            });
+        });
+    }
+
+    componentWillMount() {
+
     }
 
     paid(item) {
