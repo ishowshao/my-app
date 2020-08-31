@@ -20,8 +20,12 @@ class InvoiceUpload extends React.Component {
                     console.log(info.file, info.fileList);
                 }
                 if (info.file.status === 'done') {
-                    console.log(info);
-                    message.success(`${info.file.name} file uploaded successfully`);
+                    const response = info.file.response;
+                    if (response.code === 0) {
+                        message.success(`file uploaded successfully`);
+                    } else {
+                        message.error(response.message);
+                    }
                 } else if (info.file.status === 'error') {
                     message.error(`${info.file.name} file upload failed.`);
                 }
