@@ -14,6 +14,7 @@ class InvoiceUpload extends React.Component {
     render() {
         const props = {
             name: 'file',
+            showUploadList: false,
             action: `/invoice-server/upload.php?password=${this.password}`,
             onChange(info) {
                 if (info.file.status !== 'uploading') {

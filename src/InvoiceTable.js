@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, message } from 'antd';
 import axios from 'axios';
 
 class InvoiceTable extends React.Component {
@@ -35,9 +35,10 @@ class InvoiceTable extends React.Component {
             },
             {
                 title: '下载链接',
-                dataIndex: 'url',
-                key: 'url',
-                render: (url) => {
+                dataIndex: 'md5',
+                key: 'md5',
+                render: (md5) => {
+                    const url = `https://cdn.yinyuezhushou.com/fapiao/${md5}.pdf`;
                     return (
                         <a href={url} target="_blank" rel="noopener noreferrer">点击查看</a>
                     );
@@ -52,9 +53,10 @@ class InvoiceTable extends React.Component {
                 title: '操作',
                 dataIndex: 'id',
                 key: 'id',
-                render: (id) => {
+                render: (id, record) => {
+                    const text = record.paid === '0' ? '标记为已报销' : '标记为未报销';
                     return (
-                        <Button>标记为已报销</Button>
+                        <Button onClick={() => this.changePaid(record)}>{text}</Button>
                     );
                 }
             },
@@ -62,6 +64,7 @@ class InvoiceTable extends React.Component {
 
         const url = new URL(window.location.href);
         const password = url.searchParams.get('password') || '';
+        this.password = password;
 
         axios.get(`/invoice-server/list.php?password=${password}`).then((response) => {
             console.log(response.data);
@@ -71,13 +74,34 @@ class InvoiceTable extends React.Component {
         });
     }
 
-    paid(item) {
-        console.log(item);
+    changePaid(item) {
+        // console.log(item);
+        axios.get(`/invoice-server/paid.php?password=${this.password}&id=${item.id}&paid=${item.paid === '0' ? '1' : '0'}`).then((response) => {
+            item.paid = item.paid === '0' ? '1' : '0';
+            this.setState({
+                data: this.state.data
+            });
+        }).catch(error => {
+            message.error(String(error));
+        });
+    }
+
+    totalNotPaid() {
+        let total = 0;
+        this.state.data.forEach(invoice => {
+            if (invoice.paid === '0') {
+                total += Number(invoice.amount);
+            }
+        });
+        return total;
     }
 
     render() {
         return (
-            <Table dataSource={this.state.data} columns={this.columns} rowKey={(record) => record.id}></Table>
+            <div>
+                <Table dataSource={this.state.data} columns={this.columns} rowKey={(record) => record.id}></Table>
+                <div>未报销总计：{this.totalNotPaid()}</div>
+            </div>
         );
     }
 }
