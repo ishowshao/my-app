@@ -7,7 +7,6 @@ import './App.css';
 function App() {
   const invoiceTable = React.createRef();
   const onUploadSuccess = () => {
-    // call InvoiceTable.reload()
     invoiceTable.current.getList();
   };
   return (
