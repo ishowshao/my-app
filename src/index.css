@@ -12,16 +12,10 @@ code {
     monospace;
 }
 
-table {
-  border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid black;
-}
-
 .link {
   color: blue;
   text-decoration: underline;
   cursor: pointer;
 }
+
+@import '~antd/dist/antd.css';

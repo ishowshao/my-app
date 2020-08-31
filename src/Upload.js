@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'antd';
 
 class Upload extends React.Component {
     constructor(props) {
@@ -8,10 +9,13 @@ class Upload extends React.Component {
 
     render() {
         return (
-            <label>
-                Upload file:
-                <input type="file" ref={this.fileInput} />
-            </label>
+            <div>
+                <label>
+                    Upload file:
+                    <input type="file" ref={this.fileInput} />
+                </label>
+                <Button type="primary">Button</Button>
+            </div>
         );
     }
 }

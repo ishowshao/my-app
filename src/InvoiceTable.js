@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'antd';
 
 class InvoiceTable extends React.Component {
     constructor(props) {
@@ -10,6 +11,38 @@ class InvoiceTable extends React.Component {
                 {id: 2, amount: 200, content: '电脑', paid: false, url: 'http://www.baidu.com/'},
             ],
         };
+        this.columns = [
+            {
+                title: 'ID',
+                dataIndex: 'id',
+                key: 'id',
+            },
+            {
+                title: '金额',
+                dataIndex: 'amount',
+                key: 'amount',
+            },
+            {
+                title: '内容',
+                dataIndex: 'content',
+                key: 'content',
+            },
+            {
+                title: '是否报销',
+                dataIndex: 'paid',
+                key: 'paid',
+            },
+            {
+                title: '下载链接',
+                dataIndex: 'url',
+                key: 'url',
+            },
+            // {
+            //     title: '操作',
+            //     dataIndex: 'id',
+            //     key: 'op',
+            // },
+        ];
     }
 
     paid(item) {
@@ -17,34 +50,8 @@ class InvoiceTable extends React.Component {
     }
 
     render() {
-        const body = this.state.data.map((item) => {
-            return (
-                <tr key={item.id.toString()}>
-                    <td>{item.id}</td>
-                    <td>{item.amount}</td>
-                    <td>{item.content}</td>
-                    <td>{item.paid ? '是' : '否'}</td>
-                    <td>{item.url}</td>
-                    <td>
-                        <span className="link" onClick={() => this.paid(item)}>标记为已报销</span>
-                    </td>
-                </tr>
-            );
-        });
         return (
-            <table>
-                <thead>
-                    <tr>
-                        <td>序号</td>
-                        <td>金额</td>
-                        <td>内容</td>
-                        <td>是否报销</td>
-                        <td>下载链接</td>
-                        <td>操作</td>
-                    </tr>
-                </thead>
-                <tbody>{body}</tbody>
-            </table>
+            <Table dataSource={this.state.data} columns={this.columns} rowKey={(record) => record.id}></Table>
         );
     }
 }
