@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import axios from 'axios';
 
 class InvoiceTable extends React.Component {
@@ -7,10 +7,7 @@ class InvoiceTable extends React.Component {
         super(props);
         this.fileInput = React.createRef();
         this.state = {
-            data: [
-                {id: 1, amount: 100, content: '手机', paid: true, url: 'http://www.baidu.com/'},
-                {id: 2, amount: 200, content: '电脑', paid: false, url: 'http://www.baidu.com/'},
-            ],
+            data: [],
         };
         this.columns = [
             {
@@ -32,15 +29,19 @@ class InvoiceTable extends React.Component {
                 title: '是否报销',
                 dataIndex: 'paid',
                 key: 'paid',
-                render: (text) => {
-                    console.log(text);
-                    return text === '1' ? '是' : '否';
+                render: (paid) => {
+                    return paid === '1' ? '是' : '否';
                 },
             },
             {
                 title: '下载链接',
                 dataIndex: 'url',
                 key: 'url',
+                render: (url) => {
+                    return (
+                        <a href={url} target="_blank" rel="noopener noreferrer">点击查看</a>
+                    );
+                }
             },
             {
                 title: '上传时间',
@@ -51,6 +52,11 @@ class InvoiceTable extends React.Component {
                 title: '操作',
                 dataIndex: 'id',
                 key: 'id',
+                render: (id) => {
+                    return (
+                        <Button>标记为已报销</Button>
+                    );
+                }
             },
         ];
 
@@ -63,10 +69,6 @@ class InvoiceTable extends React.Component {
                 data: response.data.data,
             });
         });
-    }
-
-    componentWillMount() {
-
     }
 
     paid(item) {
