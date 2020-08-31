@@ -55,8 +55,9 @@ class InvoiceTable extends React.Component {
                 key: 'id',
                 render: (id, record) => {
                     const text = record.paid === '0' ? '标记为已报销' : '标记为未报销';
+                    const type = record.paid === '0' ? 'primary' : '';
                     return (
-                        <Button onClick={() => this.changePaid(record)}>{text}</Button>
+                        <Button onClick={() => this.changePaid(record)} type={type}>{text}</Button>
                     );
                 }
             },
