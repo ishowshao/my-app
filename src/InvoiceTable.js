@@ -31,17 +31,21 @@ class InvoiceTable extends React.Component {
                 title: '是否报销',
                 dataIndex: 'paid',
                 key: 'paid',
+                render: (text) => {
+                    console.log(text);
+                    return text ? '是' : '否';
+                },
             },
             {
                 title: '下载链接',
                 dataIndex: 'url',
                 key: 'url',
             },
-            // {
-            //     title: '操作',
-            //     dataIndex: 'id',
-            //     key: 'op',
-            // },
+            {
+                title: '操作',
+                dataIndex: 'id',
+                key: 'id',
+            },
         ];
     }
 
